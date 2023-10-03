@@ -181,11 +181,136 @@ You are tasked with managing a sales order database for a retail company. To imp
 
 Write the PL/SQL triggers to accomplish these tasks.
 
+#### Input Format:
 
+INSERT statements for new sales orders in the "sales_orders" table. Each statement includes:
 
+-   order_id (number) 
+-   customer_id (number)
+-   item_id (number)
+-   quantity (number)
+-   price (number)
 
+#### DDL:
 
+**Sales_orders Table**
 
+```
+-- Create the "sales_orders" table
+CREATE TABLE sales_orders (
+  order_id NUMBER(5) PRIMARY KEY,
+  customer_id NUMBER(5),
+  item_id NUMBER(5),
+  quantity NUMBER(5),
+  price NUMBER(7, 2),
+  total_price NUMBER(7, 2)
+);
+```
+
+**Customer Table**
+
+```
+-- Create the "customers" table
+CREATE TABLE customers (
+  customer_id NUMBER(5) PRIMARY KEY,
+  credit_limit NUMBER(7, 2)
+);
+```
+
+#### DML:
+
+**Sample INSERT statements for the "sales_orders" and "customers" tables:**
+
+```
+-- Insert data into the "customers" table
+INSERT INTO customers (customer_id, credit_limit)
+VALUES (201, 10000);
+```
+
+```
+-- Insert data into the "sales_orders" table
+INSERT INTO sales_orders (order_id, customer_id, item_id, quantity, price)
+VALUES (1, 201, 301, 5, 1200);
+ 
+INSERT INTO sales_orders (order_id, customer_id, item_id, quantity, price)
+VALUES (2, 201, 302, 3, 800);
+ 
+INSERT INTO sales_orders (order_id, customer_id, item_id, quantity, price)
+VALUES (3, 201, 303, 2, 3500);
+```
+
+#### Output Format:
+
+The triggers should automatically perform the calculations and updates specified in the problem statement.
+
+#### Test Cases:
+
+##### Test Case 1:
+
+```
+-- Test Case 1: Insert a sales order with a total price exceeding ₹5,000
+INSERT INTO sales_orders (order_id, customer_id, item_id, quantity, price)
+VALUES (101, 201, 301, 5, 1200);
+```
+
+##### Test Case 2:
+
+```
+-- Test Case 2: Insert a sales order with a total price below ₹5,000
+INSERT INTO sales_orders (order_id, customer_id, item_id, quantity, price)
+VALUES (102, 202, 302, 3, 800);
+```
+
+##### Test Case 3:
+
+```
+-- Test Case 3: Insert a sales order that exceeds the customer's credit limit
+INSERT INTO sales_orders (order_id, customer_id, item_id, quantity, price)
+VALUES (103, 203, 303, 2, 3500);
+```
+
+#### Solution:
+
+**Trigger 1: Auto-Calculate Total Price**
+
+```
+CREATE OR REPLACE TRIGGER Calculate_Total_Price
+BEFORE INSERT ON sales_orders
+FOR EACH ROW
+BEGIN
+  :new.total_price := :new.quantity * :new.price;
+END;
+/
+```
+
+**Trigger 2: Auto-Assign Discount**
+
+```
+CREATE OR REPLACE TRIGGER Assign_Discount
+BEFORE INSERT ON sales_orders
+FOR EACH ROW
+BEGIN
+  IF :new.total_price > 5000 THEN
+	:new.total_price := :new.total_price * 0.90; -- Apply a 10% discount
+  END IF;
+END;
+/
+```
+
+**Trigger 3: Update Customer Credit**
+
+```
+CREATE OR REPLACE TRIGGER Update_Customer_Credit
+AFTER INSERT ON sales_orders
+FOR EACH ROW
+BEGIN
+  UPDATE customers
+  SET credit_limit = credit_limit - :new.total_price
+  WHERE customer_id = :new.customer_id
+  AND credit_limit >= :new.total_price;
+END;
+/ 
+```
 
 ## Resources and References
 
