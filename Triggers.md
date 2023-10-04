@@ -7,6 +7,11 @@ tags:
   - Triggers
 Author: Prem Dharshan D
 Date: 2023-10-01T03:30:00
+PPT: https://www.canva.com/design/DAFucow7IvM/8KQQztjHzGTPFCXnAERSOA/view?utm_content=DAFucow7IvM&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink
+Live SQL Script: "\rhttps://livesql.oracle.com/apex/livesql/s/ounoi9y8lbxtojxxv1mj3z9p"
+Word Doc: https://docs.google.com/document/d/1oOdSi7vi-51ZnjK7R0qccWey7mcWSJ7tTwBF6fKn9zY/edit?usp=sharing
+Github Page: https://prem-dharshan.github.io/PL-SQL_Triggers/
+Github Repo: https://github.com/Prem-Dharshan/PL-SQL_Triggers/blob/main/Triggers.md
 ---
 ---
 ## Problem statements
@@ -312,6 +317,8 @@ END;
 / 
 ```
 
+
+---
 ## Resources and References
 
 1. [[PL_SQL .pdf]] - Dr. Thilaga M, Associate Professor, PSGCT.
@@ -319,3 +326,6 @@ END;
 
 ---
 
+
+
+---
